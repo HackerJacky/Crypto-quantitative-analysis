@@ -1,0 +1,881 @@
+% --- UNIVERSAL PREAMBLE BLOCK ---
+\documentclass[12pt, a4paper]{article}
+
+% 設定邊界 (標準論文通常為上下左右 2-2.5cm)
+\usepackage[a4paper, top=2.54cm, bottom=2.54cm, left=2.54cm, right=2.54cm]{geometry}
+\usepackage{fontspec}
+%處理多欄位用的
+\usepackage{multirow}
+%處理表格備註用的
+\usepackage{threeparttable}
+\usepackage{caption}
+%這個可以讓\begin table[H]可以執行
+\usepackage{float}
+%超連結使用的封包
+%\usepackage{hyperref}
+% 設定標籤名稱為 "圖"
+\renewcommand{\figurename}{圖}
+
+% 如果你想要 "圖1" 中間沒有空格，且標號後用空格代替冒號
+\DeclareCaptionLabelFormat{nospace}{#1#2}
+\captionsetup[figure]{labelformat=nospace, labelsep=quad}
+
+% 設定語言
+%排版中文需引入額外套件 XeCJK, 以下先設定中文再設定英文
+\usepackage{xeCJK}
+\setCJKmainfont{Microsoft JhengHei}
+
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt 			%加入以上兩行指令才能使中文排版自動換行
+
+\defaultfontfeatures{Ligatures=TeX} 		%讓 XeLaTeX 的字型處理與 LaTeX 一致
+\setmainfont{Times New Roman} 				%設定英文與數字的主要字型
+\setsansfont{Arial}  						%設定英文無襯線字型
+\usepackage{amsmath,amssymb,amsthm} %引入常用的數學套件
+\usepackage{verbatim}
+\usepackage[hidelinks]{hyperref}
+% 列表設定
+\usepackage{enumitem}
+\setlist[itemize]{label=-}
+\usepackage{caption}
+% 改成「表」，並去掉冒號
+\captionsetup[table]{name=表, labelsep=quad} 
+
+
+%以下五行是設定文稿版面的邊界使用
+\setlength{\topmargin}{-0.5in}
+\setlength{\textheight}{9.2in}
+\setlength{\evensidemargin}{0.0in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\textwidth}{6.3in}
+
+% 其他必要套件
+\usepackage{setspace}   % 設定行距
+\usepackage{titlesec}   % 設定標題格式
+\usepackage{graphicx}   % 圖片支援
+\usepackage{url}        % 網址支援
+\usepackage{indentfirst}% 首段縮排
+\usepackage{amsmath}    % 數學公式支援
+\usepackage{booktabs}
+%\usepackage{natbib}     %排版參考文獻需要使用的套件
+% --- 自定義設定 ---
+% 設定行距 (1.5 倍行高是標準)
+\setstretch{1.5}
+\setcounter{tocdepth}{3}
+
+\usepackage{csquotes}
+\usepackage[
+backend=biber,
+style=apa
+]{biblatex}
+\DefineBibliographyStrings{english}{
+	references = {參考文獻}
+}
+\addbibresource{reference.bib}
+\usepackage{hyperref} 
+
+\hypersetup{
+	colorlinks=true,   % true: 文字變色 (好看); false: 會有個醜醜的方框
+	linkcolor=black,   % 目錄、章節、圖表連結的顏色 (建議黑色，印出來才不會怪)
+	citecolor=blue,    % 參考文獻引用的顏色 (設為藍色，讓讀者知道可以點)
+	urlcolor=blue      % 網址的顏色
+}
+% -----------------------
+
+% 設定章節標題格式
+\titleformat{\section}
+{\normalfont\Large\bfseries} % 字體樣式：大字、粗體、置中
+{\thesection}{1em}{}                              % 標籤設定
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries}           % 次標題靠左
+{\thesubsection}{1em}{}
+
+% --- 文件開始 ---
+\begin{document}
+	
+	% --- 封面頁 ---
+	\begin{titlepage}
+		\centering
+		\vspace*{2cm}
+		
+		%    {\Large \textbf{商業與管理群} \\ } % 類別範例
+		\vspace{4cm}
+		
+		{\Huge \textbf{MicroStrategy 與 Bitcoin 之連動性與槓桿效應分析}} \\
+		\vspace{1.5cm}
+		
+		{\Large
+			\textbf{作者姓名：} \\
+			江嘉融 \\
+			王研\\
+			\vspace{1cm}
+			\textbf{指導老師：} \\
+			顏廣杰 \\
+		}
+		
+		\vfill
+		{\Large 中華民國 114 年 11 月 25 日}
+	\end{titlepage}
+	
+	% --- 摘要頁 ---
+	% --- 中文摘要頁 ---
+	% --- 中文摘要頁 ---
+	\newpage
+	\renewcommand{\abstractname}{摘要} % 設定標題為中文「摘要」
+	
+	\begin{abstract}\fontsize{12}{20pt}\selectfont
+		% 這裡填寫你的中文摘要內容
+		本研究探討 MicroStrategy (MSTR) 股價與比特幣 (Bitcoin) 價格之連動性與槓桿效應。
+		透過向量自迴歸模型 (VAR)、Granger 因果檢定與脈衝反應函數 (IRF) 分析 2020 年至 2025 年之日資料。
+		實證結果顯示，兩者價格無長期共整合關係，但比特幣報酬對 MicroStrategy 具有顯著的單向領先資訊傳遞效果。
+		此外，槓桿迴歸與滾動貝塔分析證實，MSTR 對比特幣價格變動呈現大於 1 的槓桿反應，
+		顯示其可作為比特幣之槓桿化代理資產。
+	\end{abstract}
+	
+	\vspace{1cm}
+	\noindent \textbf{關鍵字：} MicroStrategy、比特幣、計量分析、Granger因果檢定、定態檢定
+	
+	% --- 英文摘要頁 ---
+	\newpage
+	\renewcommand{\abstractname}{Abstract} % 設定標題為英文「Abstract」
+	
+	\begin{abstract}\fontsize{12}{20pt}\selectfont
+		% 這裡填寫你的英文摘要內容
+		This study investigates the correlation and leverage effects between MicroStrategy (MSTR) stock prices and Bitcoin (BTC). 
+		Using Vector Autoregression (VAR), Granger causality tests, and Impulse Response Functions (IRF) on daily data from 2020 to 2025, 
+		the empirical results indicate no long-term cointegration between the two price series. 
+		However, Bitcoin returns exhibit a significant unidirectional leading effect on MicroStrategy returns. 
+		Furthermore, leverage regression and rolling beta analysis confirm that MSTR exhibits a leverage response greater than 1 to Bitcoin price movements, 
+		suggesting it functions as a leveraged proxy for Bitcoin.
+	\end{abstract}
+	
+	\vspace{1cm}
+	\noindent \textbf{Keywords:} MicroStrategy, Bitcoin, Econometric Analysis, Granger Causality Test, Stationarity Test
+	
+	% --- 目錄頁 ---
+	\newpage
+	\renewcommand{\contentsname}{目錄} % 確保目錄標題顯示為中文「目錄」
+	\tableofcontents
+	% --- 正文開始 ---
+	\newpage
+	
+	% 第一章
+	\section{緒論}
+	
+	\subsection{研究動機與目的}
+	近年越來越多企業將 Bitcoin(BTC) 納入資產負債表，作為公司資產或是財務配置的一部分。
+	截至 2025 年 11 月 20 日 ，全球持有最多比特幣的機構為 MicroStrategy(MSTR) ，累積持有數量約為 649{,}870 枚，使其股價走勢與比特幣價格之間的連動備受關注。如圖\ref{fig:mstr_btc_price}所示，將 MSTR 股價與 BTC價格會至於同一張圖中可以直觀發現，兩者在樣本期間內的中長期趨勢高度相似，無論是在大幅上漲階段或隨後的劇烈修正期，走勢皆呈現明顯同步。也因此，MSTR經常被媒體與投資人視為「比特幣概念股」，甚至被形容為「比特幣的槓桿版」，部分投資人試圖持有 MSTR 來間接取得BTC的價格曝險。
+	
+	然而，憑藉價格圖形的相似性，便將 MSTR 視為等同持有 BTC ，或簡單認定其為「固定比例放大的比特幣」，在風險評估與資產配置上可能過於粗略。一方面 MicroStrategy 作為一家實體企業，其股價除反映持有比特幣部位的價值外，亦會受到公司盈餘表現、財務槓桿結構以及整體股市情緒等多重因素影響；
+	另一方面，即便直觀上可以看出 MSTR 與 BTC 價格走勢相近，兩者之間的關聯強度為何、
+	是否存在明確的領先落後關係、MSTR 對 BTC 價格變動究竟具有多大的槓桿效果，
+	以及這種槓桿效果是否會隨時間與市場狀態改變，仍有賴系統性的時間序列實證分析，而非僅停留在圖形觀察與媒體敘事。
+	
+	在此背景下，本文以 MicroStrategy 與 Bitcoin 為研究對象，採用 2020 年 8 月
+	（MicroStrategy 開始將比特幣納入公司資產之時點）至 2025 年 11 月之日資料，
+	結合多種時間序列工具，系統性刻畫兩者的報酬與風險特性、短期動態關係及槓桿效果。
+	具體而言，本研究的目的在於：首先，透過價格走勢圖、敘述統計量以及日對數報酬的分布與相關係數，
+	比較 MSTR 與 BTC 在平均報酬、波動度、偏態與峰態等風險特性上的差異，檢視兩者的靜態關聯性，
+	作為後續分析的基礎；其次，先以單根檢定與 Engle--Granger 共整合檢定確認價格與報酬序列的統計性質，
+	再建立二變數差分 VAR 模型，並利用 Granger 因果檢定與脈衝反應函數（IRF），
+	分析 MSTR 與 BTC 之短期動態關係與領先落後效果，說明價格衝擊在兩資產之間的傳遞方向、
+	影響幅度與持續期間；最後，透過 OLS 槓桿迴歸估計 MSTR 報酬對 BTC 報酬之平均敏感度（貝塔係數），
+	並進一步計算 60 日滾動貝塔，觀察槓桿倍數是否穩定或隨市場狀態而變動，以評估 MicroStrategy 是否可視為
+	比特幣價格變動的槓桿化代理資產，並討論其對投資風險與曝險管理的意涵。
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.8\textwidth]{image/price_trend08.png}
+		\caption{Microstrategy 與 Bitcoin 價格走勢比較（2020–2025）}
+		\label{fig:mstr_btc_price}
+	\end{figure}
+	
+	\subsection{研究貢獻}
+	本研究之預期研究貢獻可歸納為以下三點。
+	
+	第一，補充單一企業持有比特幣之槓桿化效果的實證證據。
+	相較於既有文獻多聚焦於比特幣與整體股市指數或產業指數之關聯性分析，本研究以採取大規模比特幣持有策略之 MicroStrategy 為研究對象，探討其股價與比特幣價格之連動關係。實證結果顯示，該公司股價並非僅為比特幣價格的被動反映，而係透過其資本結構安排，呈現具槓桿特性的報酬反應。此結果補充了加密貨幣相關企業於公司層級之實證研究。
+	
+	第二，量化比特幣槓桿效果之時變特性。
+	本研究透過 OLS 迴歸與滾動貝塔分析，估計 MicroStrategy 股價對比特幣報酬之敏感係數，並發現該係數顯著大於一，且隨時間呈現變動。研究結果顯示，比特幣價格波動與市場循環會影響企業股價之槓桿程度，進而改變其波動結構，提供企業持有加密資產對股價風險影響的量化證據。
+	
+	第三，釐清加密貨幣市場與個股之價格發現關係。
+	透過 Granger 因果關係檢定與向量自我迴歸（VAR）模型之脈衝反應分析，本研究檢視比特幣與 MicroStrategy 股價之動態互動關係。實證結果顯示，比特幣價格變動在資訊傳遞上具有領先地位，而個股價格對其衝擊反應迅速但具放大效果。此結果有助於理解代理資產於投資實務中所扮演的角色，並提供投資組合風險管理之參考依據。
+	\newpage
+	% 第二章
+	\section{文獻探討}
+	
+	\subsection{比特幣的資產特性}
+	關於比特幣的資產定位，學術界的定義有一些轉變。早期觀點基於比特幣去中心化和供給上限(2100萬枚)特性，常將其比喻為數位黃金，認為其具備抗通膨與價值儲存功能。然而，隨者市場結構成熟與機構資金湧入，近期許多文獻多支持比特幣本質上屬於高波動風險資產。
+	
+	\cite{wang2022}透過實證模型指出，比特幣與全球主要股市及大宗商品呈現顯著的正向動態連結，而與美元指數呈負相關，顯示其價格驅動力來自市場的風險胃納 (Risk Appetite) 而非避險需求。Matkovskyy 與 Jalan (2019)\cite{matkovskyy2019} 亦發現，在金融市場動盪期間，投資人傾向拋售比特幣並轉向傳統市場尋求安全，證實了其順週期的風險特徵。
+	
+	此外，近期市場分析進一步強化了这一看法。根據 Nasdaq (2025) 的分析報告，比特幣近年来与 S\&P 500 指數的相關性顯著提升，且其价格行為類似于“杠杆化的大盤指数”，在市場上行與下行期間均展現出數倍於股市的波動幅度。此一“高波動、高连动”的資產特性，為本研究探討 MicroStrategy 如何通过持有比特幣創造槓桿效應，提供了關鍵的理論基礎。
+	
+	\subsection{比特幣與傳統金融市場的連動性與傳染效力}
+	
+	隨著加密貨幣市場的成熟與機構化，比特幣與傳統金融市場（特別是股票市場）的關係已從早期的「市場區隔（Segmentation）」逐漸轉向「市場整合（Integration）」。理解此一動態連結機制，對於分析加密貨幣概念股（Crypto-linked Stocks）的定價行為至關重要。
+	
+	\subsubsection{市場整合與動態相關性}
+	
+	早期的實證文獻多認為比特幣與傳統資產類別（如 S\&P 500、黃金、債券）呈現低度相關甚至零相關，具有分散投資組合風險的潛力。然而，近期研究顯示此一關係已發生結構性改變。Wang et al. (2022) 採用 ADCC-GARCH 模型分析指出，比特幣與傳統風險資產（Risky Assets）的動態關聯性具有顯著的時變特徵；特別是在 2020 年後，隨著貨幣政策寬鬆與機構投資人進場，比特幣與全球股市的連動性顯著增強，顯示加密貨幣已深度嵌入全球金融體系的風險傳遞網絡中。
+	
+	\subsubsection{波動溢出與傳染效應}
+	
+	除了一般的價格相關性外，市場間的「波動溢出（Volatility Spillover）」與「傳染效應（Contagion Effect）」亦是關注焦點。IMF (2022) 的報告指出，自 COVID-19 疫情以來，比特幣與美股科技板塊的波動溢出效應大幅增加，意味著加密市場的特質性衝擊（Idiosyncratic Shocks）已具備跨市場傳導的能力。
+	
+	Matkovskyy 與 Jalan (2019) 進一步透過區制轉換模型（Regime-Switching Model）研究發現，傳統金融市場與比特幣市場之間存在顯著的傳染效應。該研究證實，當市場面臨壓力或極端波動時，投資人的風險趨避行為會加速資產間的拋售潮，導致風險從高波動的比特幣市場迅速擴散至相關聯的金融資產。
+	
+	\subsubsection{關聯結構的不對稱性} 
+	值得注意的是，此種跨市場的連動關係並非對稱。文獻普遍支持「下行風險傳染更強」的觀點。Wang et al. (2022) 發現，在極端負向衝擊（如市場崩盤）發生時，比特幣與風險資產的連結度會急劇上升，遠高於市場平穩期的水準。\cite{matkovskyy2019}亦指出，傳染效應具有顯著的不對稱性，即在空頭市場（Bear Market）或高波動區制下，資產間的依賴程度顯著增強。
+	
+
+	綜上所述，比特幣與股票市場已形成高度整合且具備不對稱傳染特徵的連動關係。此一發現暗示，對於像 MicroStrategy 這類高度曝險於比特幣的企業而言，其股價不僅受比特幣價格波動影響，更可能在市場下行期間面臨被放大的系統性風險傳染。
+	
+	\subsection{企業持幣策略與槓桿代理角色}
+	
+	\newpage
+	% 第三章
+	\section{研究方法}
+	\subsection{資料來源}
+	本研究選取Microstrategy(MSTR)與Bitcoin(BTC)為研究對象，資料來源為Yahoo Finance資料庫，樣本取自2020年8月1日(MSTR在2020年8月首次宣布購)至2025年11月20日，考量到比特幣是24小時皆可交易，而美股市場存在休市日(如週末與國定假日)，為確保資料的一致性，本研究已剔除兩者非同交易日之數據，此外，為了消除價格非定態特徵並計算投資績效，本研究將每日收盤價格轉換成對數報酬以利後續的分析，但部分分析仍是以對數價格進行分析。
+	
+	\subsection{變數定義與資料轉換}
+	設 $P^{MSTR}_t$ 與 $P^{BTC}_t$ 分別代表第 $t$ 日MicroStrategy 股價與 Bitcoin價格 ，兩者皆以美元計價。考量到價格序列多半呈現非定態，直接使用價格容易違反定態假設並產生虛假迴歸問題，本研究採用日對數報酬作為主要分析變數，其定義如下：
+	\begin{align}
+		r^{MSTR}_t &= \ln P^{MSTR}_t - \ln P^{MSTR}_{t-1}, \\
+		r^{BTC}_t  &= \ln P^{BTC}_t  - \ln P^{BTC}_{t-1}.
+	\end{align}
+	為便於後續建立 VAR 模型，定義報酬向量為：
+	\[
+	\mathbf{r}_t =
+	\begin{bmatrix}
+		r^{MSTR}_t \\
+		r^{BTC}_t
+	\end{bmatrix}.
+	\]
+	
+	對數報酬具有兩項優點。首先，在變動幅度不大時，對數報酬約略等同於百分比報酬，便於解讀迴歸係數與脈衝反應的經濟意涵；其次，對數轉換有助於降低異質變異程度，使得時間序列接近定態。後續進行的單根檢定結果亦顯示，價格序列皆為 I(1)，而對數報酬則可視為 I(0) 定態序列，支持本研究以報酬而非價格進行 VAR 與 Granger因果檢定之作法。
+	
+	\subsection{敘述統計與風險特徵}
+	為初步了解 MSTR 與 BTC 報酬之風險特性，本研究對日對數報酬計算平均數、標準差、最大值、最小值、偏態、峰態以及Jarque--Bera常態性檢定，結果如表\ref{tab:descriptive_stats}所示。表中 Mean、Min 與 Max 皆以百分比表示，亦即原始對數報酬乘以 $100$ 之後的數值。
+	\begin{table}[htbp]
+		\centering
+		\caption{日對數報酬的敘述統計}
+		\label{tab:descriptive_stats}
+		\begin{tabular}{lrr}
+			\toprule
+			\textbf{Statistic} & \textbf{Bitcoin (BTC)} & \textbf{MicroStrategy (MSTR)} \\
+			\midrule
+			Mean (\%)       & 0.1739 & 0.1730 \\
+			Std. Dev.       & 0.0395 & 0.0567 \\
+			Min (\%)        & -46.4730 & -29.5096 \\
+			Max (\%)        & 19.1527 & 25.5853 \\
+			Skewness        & -1.2279 & -0.0920 \\
+			Kurtosis        & 16.2499 & 3.6409 \\
+			Jarque-Bera     & 16644.3058 & 819.0044 \\
+			JB P-value      & 0.0000 & 0.0000 \\
+			\bottomrule
+		\end{tabular}
+		\footnotesize
+		\begin{tablenotes}
+			\item 註：樣本期間自 2020 年 8 月至 2025 年 11 月，數據採用日對數報酬率。峰態係數係指超額峰態 (Excess Kurtosis)。
+		\end{tablenotes}
+	\end{table}
+	
+	整體而言，兩資產日報酬的平均值接近0，就波動度而言， MicroStrategy 的日報酬標準差約為 $5.67\%$，明顯高於 Bitcoin 的約 $3.95\%$，顯示在樣本期間 MSTR 的短期價格波動
+	甚至大於 BTC。極端值方面，BTC 的最大單日跌幅約為 $-46.47\%$，
+	跌幅顯著大於 MSTR 的 $-29.51\%$；而 MSTR 的最大單日漲幅約為 $25.59\%$，
+	亦高於 BTC 的 $19.15\%$，反映兩者皆可能出現劇烈的單日價格變動。
+	
+	在分配形狀方面，BTC 報酬呈現明顯的負偏態（Skewness 約 $-1.23$）
+	與極高峰態（Kurtosis 約 $16.25$），顯示其報酬分配具有顯著厚尾，
+	且尾端風險偏向大幅下跌；相較之下，MSTR 的偏態值接近零，
+	峰態約為 $3.64$，雖仍高於常態分配但程度較為溫和，分配形狀較接近對稱。
+	Jarque--Bera 檢定的 p 值皆接近 $0$，拒絕常態分配假設，顯示兩資產報酬
+	皆存在顯著的非常態與尾端風險。
+	
+	為更直觀呈現報酬分布，本研究繪製 MSTR 與 BTC 每日漲跌幅之直方圖與核密度估計，
+	如圖~\ref{fig:mstr_btc_accumureturn} 所示。由圖可見，兩者報酬大多集中於 0 附近，
+	但分布呈現明顯尖峰厚尾；其中 MSTR 的分布較為分散，尾端延伸幅度大於 BTC，
+	與其較高的日內波動度相互呼應。
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{image/Risk_Distribution_MSTR_BTC.png}
+		\caption{MicroStrategy 與 Bitcoin 每日漲跌幅分布比較（2020–2025）}
+		\label{fig:mstr_btc_accumureturn}
+	\end{figure}
+	
+	\newpage
+	
+	% 第四章
+	\section{計量模型實證分析}
+	\subsection{單根檢定}
+	在進行分析前，為避免變數因為資料非定態特性而產生虛假回歸的問題，並決定後續應採用的，本研究首先採用 Augmented Dickey-Fuller (ADF) 與Phillips-Perron (PP) 檢定 Microstrategy (MSTR) 與 Bitcoin (BTC) 之價格與報酬序列的整合階數，檢定結果如表2所示：
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{ADF與PP單跟檢定結果}
+		\begin{tabular}{lcccc}
+			\toprule
+			變數 & ADF Stat & ADF P-value & PP Stat & PP P-value \\
+			\midrule
+			MSTR (Level)  & $2.8877$        & $1.0000$ & $4.1583$        & $1.0000$ \\
+			MSTR (Return) & $-43.1977^{***}$ & $0.0000$ & $-43.2909^{***}$ & $0.0000$ \\
+			BTC (Level)   & $-0.2145$       & $0.9368$ & $-0.0568$       & $0.9536$ \\
+			BTC (Return)  & $-13.7663^{***}$ & $0.0000$ & $-44.6413^{***}$ & $0.0000$ \\
+			\bottomrule
+			\multicolumn{5}{l}{\footnotesize 註： $^{***} p<0.01$, $^{**} p<0.05$, $^{*} p<0.1$} \\
+		\end{tabular}
+		\label{tab:stationarity_tests}
+	\end{table}
+	結果顯示，MSTR之價格序列在ADF與PP檢定下階無法拒絕單根虛無假設，其p-value皆接近於1，顯示兩者為非定態序列 (I(1))，此結果符合多數金融資產價格呈現隨機漫步（random walk）的特性，也意味價格之間若存在均衡關係，需透過共整合檢定加以確認。因此，本研究將於後續採用 Johansen 共整合檢定，以判斷兩資產是否具有長期共同趨勢，並依據檢定結果決定是否建立 VECM 或差分 VAR 之價格動態模型。
+	由於兩個價格變數皆為 I(1)，因此符合共整合檢定之必要條件。另一方面，本研究僅包含兩個 I(1) 變數（MSTR 價格與 BTC 價格），因此後續採用 Engle–Granger（1987）兩步驟法 作為共整合檢定方法，而非須至少三變數參與的 Johansen 系統式檢定。後續將以 Engle–Granger 檢定殘差之定態性，判斷兩價格是否存在長期均衡關係。
+	
+	此外，報酬序列因已確定為 I(0)，可直接用於短期動態之分析，包括槓桿效應迴歸、Granger 因果檢定與 VAR 模型，而無需進行差分處理。
+	
+	綜合檢定結果，本研究後續對價格層採用 Engle–Granger 共整合檢定，以檢驗是否存在長期均衡關係；而報酬層則因為已定態，將用於後續之短期槓桿反應與資訊傳遞分析。
+	\subsection{Engle–Granger 共整合檢定}
+	在確認MSTR與BTC之價格變數皆為 I(1)後，本研究進一步檢驗兩者是否存在長期均衡關係。共整合的存在表示兩資產價格雖為隨機漫步，但期線性組合會收斂穩定的均衡關係，顯示兩者具備長期共同趨勢；反之若不存在共整合；則兩者之價格在長期呈現脫鉤狀態。本研究僅包含兩個 I(1)價格變數，因此採用Eagle-Granger(1987)兩步驟法作為共整合檢定方法，而非需要三變數之Johansen共整合法。
+	Eagle-Granger的檢定程序如下。
+	首先我們先對MSTR
+	\begin{align}
+		P_t^{MSTR} = \alpha + \beta P_t^{BTC} + u_t,
+	\end{align}
+	其中 $u_t$ 為殘差代表 MSTR與BTC價格偏離長期均衡的誤差項。
+	第二步對殘差序列$\hat{u}_t$ 進行ADF單根檢定，若殘差為定態 (拒絕殘差具有丹根之虛無假設) ，則可判斷兩價格變數存在共整合關係。
+	在實證上本研究採用Python之statsmodels套件提供的 coint 函數執行Eagle-Granger檢定；該函數依據上述二步驟方法，自動完成長期迴歸並對殘差進行ADF單跟檢定，回傳共整合t統計量與其對應之p-value。本研究之檢定結果如下：
+	
+	\begin{table}[ht]
+		\centering
+		\caption{Engle-Granger 共整合檢定結果}
+		\label{tab:eg_test}
+		\begin{tabular}{lcccc}
+			\toprule
+			\textbf{Statistic} & \textbf{P-value} & \textbf{1\% Critical} & \textbf{5\% Critical} & \textbf{10\% Critical} \\
+			\midrule
+			-2.5827 & 0.2438 & -3.9070 & -3.3420 & -3.0485 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	從表3得出p-value顯著大於0.05，無法拒絕「殘差距有單根」的虛無假設，因此MSTR與BTC的價格序列之間不存在共整合關係。換言之，雖然兩者價格皆為 I(1)，但其價格並未形成穩定的長期均衡，也部會在長期收斂於固定比例，顯示兩者之價格存在長期脫鉤現象。此結果亦反映 MicroStrategy的股價受到企業營運風險、市場波動與投資人情緒等因素影響，並不全隨 Bitcoin 價格的長期走勢而變動。
+	
+	基於共整合檢定結果，本研究後續的價格動態分析不採用需要共整合前提之向量誤差修正模型 (VECM)，而改以價格差分後之 VAR模型($\Delta$ MSTR、$\Delta$ BTC)探討短期價格變化的互動關係。同時，由於報酬序列已被確認為 I(0) ，其報酬層之槓桿效應、Granger因果檢定與短期連棟分析亦可直接進行。
+	檢定結果顯示 MSTR與 BTC在價格層面不去長期共同均衡，本研究後續新武焦距於短期價格動態、報酬反應與槓桿效應，而非長期誤差修正結構。
+	
+	
+	\subsection{差分 VAR（\texorpdfstring{$\Delta$}{Δ}VAR）模型建立與估計結果}
+	
+	
+	\subsubsection{模型設定}
+	
+	根據單根檢定與共整合檢定結果顯示，MSTR 與 BTC 的價格序列均為 I(1) 非定態，
+	其報酬序列則為 I(0) 定態，且兩者之間不存在共整合關係。因此，若直接以價格建立
+	VAR 模型，容易產生虛假迴歸問題。為避免此一情況，本研究改以日對數報酬作為解釋
+	變數與被解釋變數，建立二變數差分 VAR 模型（$\Delta$VAR）。
+	
+	令
+	\[
+	\mathbf{y}_t =
+	\begin{bmatrix}
+		r^{MSTR}_t \\
+		r^{BTC}_t
+	\end{bmatrix},
+	\]
+	其中 $r^{MSTR}_t$ 與 $r^{BTC}_t$ 分別表示 MSTR 與 BTC 之日對數報酬，
+	則一般 $p$ 階差分 VAR 模型可表示為
+	\[
+	\mathbf{y}_t = \mathbf{c} + A_1 \mathbf{y}_{t-1} + \cdots + A_p \mathbf{y}_{t-p}
+	+ \boldsymbol{\varepsilon}_t,
+	\]
+	其中 $\mathbf{c}$ 為常數向量，$A_i$ 為係數矩陣，$\boldsymbol{\varepsilon}_t$
+	為白噪音誤差向量。下節先利用資訊準則選擇適當的滯後期數 $p$，再進一步進行估計。
+	
+	\subsubsection{滯後期數選擇}
+	
+	本研究以 AIC、BIC、FPE 與 HQIC 等資訊準則選擇差分 VAR 模型的滯後期數 $p$。
+	在設定最大滯後期數為 10 的情況下，逐一估計不同 $p$ 值之 $\Delta$VAR 模型，
+	並計算相應的資訊準則；節錄 $p=0$ 與 $p=1$ 之結果如表~\ref{tab:var_lag} 所示，
+	表中以粗體標示各準則的最小值。
+	
+	\begin{table}[ht]
+		\centering
+		\caption{VAR 滯後期選擇結果（節錄）}
+		\label{tab:var_lag}
+		\begin{tabular}{ccccc}
+			\toprule
+			滯後期 $p$ & AIC & BIC & FPE & HQIC \\
+			\midrule
+			0 & -12.28 & \textbf{-12.27} & $4.650\times 10^{-6}$ & -12.28 \\
+			1 & \textbf{-12.29} & -12.26 & \textbf{$4.616\times 10^{-6}$} & \textbf{-12.28} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	由表~\ref{tab:var_lag} 可見，AIC 與 FPE 皆在 $p=1$ 時達到最小值，
+	而 HQIC 在 $p=0$ 與 $p=1$ 之間差異不大，但其最小值亦出現在 $p=1$。
+	綜合各準則與後續進行 Granger 因果及脈衝反應分析的需求，本研究最終採用
+	一階差分 VAR 模型，即 $\Delta$VAR(1)。
+	
+	\subsubsection{差分 VAR(1) 模型形式}
+	
+	在選定滯後期數 $p=1$ 後，二變數 $\Delta$VAR(1) 模型可具體寫為：
+	\begin{align}
+		r^{MSTR}_t
+		&= \alpha_1
+		+ \phi_{11} r^{MSTR}_{t-1}
+		+ \theta_{11} r^{BTC}_{t-1}
+		+ \varepsilon_{1t}, \\
+		r^{BTC}_t
+		&= \alpha_2
+		+ \phi_{21} r^{MSTR}_{t-1}
+		+ \theta_{21} r^{BTC}_{t-1}
+		+ \varepsilon_{2t},
+	\end{align}
+	其中 $\alpha_1,\alpha_2$ 為常數項，$\phi_{11},\theta_{11},\phi_{21},\theta_{21}$
+	為需估計之動態係數，$\varepsilon_{1t},\varepsilon_{2t}$ 分別為兩方程式的誤差項。
+	
+	\subsubsection{估計結果}
+	
+	依據前述設定，以 OLS 估計 $\Delta$VAR(1) 模型，並採用 Newey--West 型態 HAC
+	標準誤進行推論。估計結果節錄如表~\ref{tab:var_est} 所示。
+	
+	\begin{table}[ht]
+		\centering
+		\caption{$\Delta$VAR 模型估計結果（節錄）}
+		\label{tab:var_est}
+		\begin{tabular}{lccc}
+			\toprule
+			\multicolumn{4}{c}{(A) 方程式：$r^{MSTR}_t$} \\
+			\midrule
+			變數 & 係數 & t 值 & p 值 \\
+			\midrule
+			L1.$r^{MSTR}$ & -0.0779 & -1.979 & 0.048$^{**}$ \\
+			L1.$r^{BTC}$  &  0.0858 &  1.495 & 0.135 \\
+			\midrule
+			\multicolumn{4}{c}{(B) 方程式：$r^{BTC}_t$} \\
+			\midrule
+			變數 & 係數 & t 值 & p 值 \\
+			\midrule
+			L1.$r^{MSTR}$ &  0.0119 &  0.440 & 0.660 \\
+			L1.$r^{BTC}$  & -0.0578 & -1.471 & 0.141 \\
+			\midrule
+			\multicolumn{4}{c}{(C) 殘差相關係數矩陣} \\
+			\midrule
+			& $r^{MSTR}_t$ & $r^{BTC}_t$ \\
+			$r^{MSTR}_t$ & 1.000 & 0.663 \\
+			$r^{BTC}_t$  & 0.663 & 1.000 \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	由表~\ref{tab:var_est} 可見，在 $r^{MSTR}_t$ 方程式中，L1.$r^{MSTR}$ 係數為
+	$-0.0779$，在 5\% 顯著水準下顯著為負，表示 MSTR 報酬存在一定程度的短期反轉
+	（當前一期報酬偏高時，下一期報酬略有修正）。相對地，L1.$r^{BTC}$ 對
+	$r^{MSTR}_t$ 的影響並不顯著；而在 $r^{BTC}_t$ 方程式中，L1.$r^{MSTR}$ 與
+	L1.$r^{BTC}$ 亦皆未達顯著水準。整體而言，兩資產間的短期動態交互影響有限，
+	與後續 Granger 因果檢定中僅在特定滯後階段出現單向因果關係的結果相吻合。
+	
+	\subsubsection{模型穩定性}
+	
+	最後，本研究檢視 $\Delta$VAR(1) 模型之特徵根（eigenvalues），結果顯示所有
+	特徵根的絕對值均小於 1，表示本模型滿足穩定性條件，適合作為後續 Granger 因果
+	檢定與脈衝反應函數（IRF）分析之基礎。
+	
+	
+	
+	
+	\subsection{Granger Causality 檢定}
+	
+	\subsubsection{檢定目的}
+	為釐清Bitcoin與MicroStrategy兩資產之間的短期資訊傳遞方向，本研究利用 Granger 因果檢定分析兩資產日報酬 (dBTC、dMSTR)短期是否有預測能力。Granger 檢定的核心在於：若某變數的過去資訊能提升對另一變數的預測能力，則可視為「Granger 因果關係」。由於兩者價格續列為 I(1) ，但報酬序列呈現定態，因此直接使用報酬進行檢定可避免虛假迴歸。
+	
+	\subsubsection{檢定結果}
+	由表\ref{tab:granger}檢定結果顯示，僅有 Bitcoin Granger因果檢定 Lag3(p=0.043)在 5\% 顯著水準下拒絕虛無假設，其餘滯後期皆為達顯著水準(Lag 4、5雖接近但僅達 10\% 趨勢顯著)。
+	
+	\begin{table}[ht]
+		\centering
+		\caption{Granger 因果關係檢定結果（MSTR vs. BTC）}
+		\label{tab:granger}
+		\begin{threeparttable}
+			\begin{tabular}{cccccc}
+				\toprule
+				\multirow{2}{*}{\textbf{Lag（滯後）}} 
+				& \multicolumn{2}{c}{\textbf{BTC $\rightarrow$ MSTR}} 
+				& \multicolumn{2}{c}{\textbf{MSTR $\rightarrow$ BTC}} \\
+				\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+				& P-value & 結果判定 & P-value & 結果判定 \\
+				\midrule
+				1 & 0.2040 & 不顯著 & 0.9105 & 不顯著 \\
+				2 & 0.3353 & 不顯著 & 0.9357 & 不顯著 \\
+				3 & 0.0430 & \textbf{顯著\textsuperscript{**}} & 0.4477 & 不顯著 \\
+				4 & 0.0787 & 不顯著\textsuperscript{*} & 0.0808 & 不顯著\textsuperscript{*} \\
+				5 & 0.0963 & 不顯著\textsuperscript{*} & 0.0914 & 不顯著\textsuperscript{*} \\
+				\bottomrule
+			\end{tabular}
+			\begin{tablenotes}
+				\footnotesize
+				\item 註：\textsuperscript{**} 表示在 5\% 顯著水準下顯著；\textsuperscript{*} 表示在 10\% 水準下具有顯著趨勢。
+			\end{tablenotes}
+		\end{threeparttable}
+	\end{table}
+	
+	此結果表示: Bitcoin 的落後三期報酬 對 MSTR 當期報酬具有額外的預測能力以及Bitcoin 為資訊傳遞的領先者，MicroStrategy 則呈現滯後反應。
+	
+	\subsection{脈衝反應分析}
+	前幾節的實證結果顯示，首先，第 3 章的敘述統計與圖形分析指出，
+	MSTR 與 BTC 均屬高波動資產，且報酬分布呈現尖峰厚尾特性；其次，
+	單根與共整合檢定結果顯示兩者價格序列為 I(1)、報酬為 I(0)，並不存在
+	長期均衡關係，因此本研究在第 4.3 節採用日對數報酬建立差分 VAR(1) 模型。
+	在此基礎上，4.4 節之 Granger 因果檢定進一步發現，BTC 對 MSTR 存在單向
+	因果關係，而 MSTR 並不領先 BTC。為檢驗此一領先落後關係在動態路徑上的
+	表現，本節利用差分 VAR 模型估計脈衝反應函數 (IRF)，從時間維度觀察
+	兩資產間訊息傳遞與槓桿效應的調整過程。
+	\subsubsection{BTC 衝擊對 MSTR 報酬之影響}
+	圖~\ref{fig:placeholder1} 顯示，在第 4.3 節所建立之差分 VAR(1) 模型下，
+	給予 BTC 日報酬一個正向一標準差衝擊時，MSTR 日報酬的動態調整路徑。
+	由圖可見，在衝擊發生後第 1 期，MSTR 報酬立即出現明顯的正向反應，
+	脈衝反應值約落在 0.2%–0.3% 左右，顯示比特幣價格上漲時，
+	MicroStrategy 股價會同步出現可觀的正報酬。第 2 期起，MSTR 報酬
+	出現輕微的負向修正，之後反應幅度快速衰減，於第 3–4 期後幾乎貼近 0，
+	表示 BTC 衝擊對 MSTR 的影響主要集中在極短期內，並不具有長期持續效果。
+	
+	此外，圖中虛線表示之信賴區間在前一至二期明顯偏離 0 軸，隨後逐漸收斂並
+	涵蓋 0，顯示 BTC 正向衝擊對 MSTR 報酬的顯著正向影響主要發生在衝擊後的一
+	至兩期。此一結果與第 4.4 節 Granger 因果檢定中「BTC 領先 MSTR」的單向
+	因果關係相互印證，也與第 3 章中 MSTR 報酬呈現高波動特性的描述一致：
+	當基礎資產 BTC 出現價格訊號時，MSTR 會在短期內放大反應，呈現類似
+	槓桿化的價格調整行為。
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{image/IRF_BTC_to_MSTR (8).png}
+		\caption{比特幣衝擊對 MicroStrategy 報酬的脈衝反應（IRF）}
+		\label{fig:placeholder1}
+	\end{figure}
+	\vspace{-1.8em}
+	
+	\subsubsection{MSTR 衝擊對 BTC 報酬之影響}
+	圖~\ref{fig:placeholder2} 則呈現當 MSTR 日報酬受到一個正向一標準差衝擊時，
+	BTC 報酬的脈衝反應路徑。與前一小節相比，可以清楚看出兩者影響力的不對稱性。
+	當 MSTR 報酬發生正向衝擊時，BTC 報酬在第 1 期僅出現極小幅度的反應，
+	其脈衝反應值接近 0，隨後各期反應亦迅速衰減並貼近 0 軸。更重要的是，
+	圖中虛線信賴區間幾乎自第 1 期起即涵蓋 0，顯示在傳統顯著水準下，
+	MSTR 的衝擊對 BTC 報酬並無統計上顯著的影響。
+	
+	此一結果意味著，即使 MSTR 本身在第 3 章中被證實具有較高的日內波動度，
+	其價格變動仍難以反向「主導」比特幣價格。換言之，BTC 在整體市場中
+	仍保有獨立且主導的價格形成機制，而 MSTR 多半扮演跟隨 BTC 價格訊號
+	進行調整的角色。這與第 4.4 節 Granger 檢定中「MSTR 不領先 BTC」的結論
+	完全一致，進一步強化了本研究對兩者領先落後關係的判斷。
+	%衝擊反映函數圖片
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{image/IRF_MSTR_to_BTC (3).png}
+		\caption{MicroStrategy 衝擊對比特幣報酬的脈衝反應（IRF）}
+		\label{fig:placeholder2}
+	\end{figure}
+	
+	\subsubsection{小結：IRF 與槓桿效應}
+	綜合圖~\ref{fig:placeholder1} 與圖~\ref{fig:placeholder2} 的結果可知，
+	BTC 與 MSTR 之間的動態關係具有明顯的單向性與不對稱性：一方面，
+	BTC 報酬的正向衝擊會在短期內顯著帶動 MSTR 報酬上升，且反應幅度通常
+	大於 BTC 本身；另一方面，MSTR 報酬的衝擊對 BTC 的影響則十分有限，
+	在多數期數下並不具統計顯著性。此一現象不僅與第 4.4 節 Granger 因果分析
+	所得之「BTC 領先 MSTR」結論相互印證，也與第 3 章中 MSTR 較高的波動度
+	特徵相吻合。
+	更重要的是，IRF 顯示 BTC 衝擊對 MSTR 的短期正向反應具有放大效果，
+	為後續第 4.X 節槓桿迴歸與滾動貝塔分析中估得 $\beta > 1$ 的結果提供動態
+	上的佐證。換言之，MSTR 不僅在靜態迴歸中對 BTC 報酬呈現大於 1 的槓桿係數，
+	在動態調整過程中亦展現「BTC 價格變化被放大反映於 MSTR 報酬」的特性，
+	支持將 MSTR 視為比特幣價格變動之槓桿化代理資產的觀點。
+	
+	\subsection{槓桿效應迴歸}
+	本節進一步檢驗 MicroStrategy 報酬對 Bitcoin 報酬之敏感度與槓桿效果。
+	根據前述 VAR 與 IRF 分析結果，BTC 對 MSTR 存在單向因果關係，且 BTC
+	衝擊在短期內會在 MSTR 報酬上產生同向且放大的動態反應。為了量化此一
+	「放大幅度」，本研究採用簡單線性迴歸模型
+	\begin{align}
+		r_{t}^{MSTR} = \alpha + \beta r_{t}^{BTC} + \varepsilon_{t},
+	\end{align}
+	表~\ref{tab:beta_reg} 為槓桿迴歸之估計結果。從表中可以看出，BTC 日報酬的係數
+	$\beta$ 約為 1.093，且在 1\% 顯著水準下高度顯著，表示在樣本期間內，
+	當 BTC 報酬變動 1\% 時，MSTR 日報酬平均約變動 1.09\%，顯示 MSTR 對 BTC
+	價格變動具有放大反應的槓桿特性。常數項 $\alpha$ 雖為正，但並不顯著，
+	代表在控制 BTC 報酬後，MSTR 並不存在系統性超額報酬。整體來看，
+	本單變量迴歸可解釋約 48\% 的 MSTR 報酬變異，屬中度解釋力，說明 BTC 價格
+	是影響 MSTR 報酬的重要來源之一，但亦存在其他公司本身或市場因子所造成的
+	殘餘波動。
+	
+	此一全樣本平均敏感度 $\beta>1$ 的結果，與前一節 VAR/IRF 分析中
+	「BTC 衝擊在短期內對 MSTR 報酬產生同向且放大的動態反應」相互印證，
+	提供了 MSTR 扮演比特幣槓桿化代理資產的靜態證據。
+	
+	\begin{table}[htbp]
+		\centering
+		\begin{threeparttable}
+			\caption{MicroStrategy 相對於 Bitcoin 日報酬之 OLS 槓桿迴歸結果}
+			\label{tab:beta_reg}
+			
+			\begin{tabular}{lcccc}
+				\toprule
+				\textbf{變數} & \textbf{係數估計值} & \textbf{標準誤} & \textbf{$t$ 值} & \textbf{$p$ 值} \\
+				\midrule
+				常數項 $\alpha$           & 0.0003    & 0.0010 & 0.29  & 0.77      \\
+				BTC 日報酬 $r_t^{BTC}$    & 1.0928*** & 0.0490 & 22.40 & $< 0.001$ \\
+				\midrule
+				$R^{2}$         & \multicolumn{4}{c}{0.480} \\
+				調整後 $R^{2}$  & \multicolumn{4}{c}{0.479} \\
+				觀測值數        & \multicolumn{4}{c}{1{,}332} \\
+				\bottomrule
+			\end{tabular}
+			
+			\begin{tablenotes}[flushleft]
+				\footnotesize
+				\item 註：依變數為 MicroStrategy 日報酬 $r_t^{MSTR}$，係數以普通最小平方法 (OLS) 估計。
+				\item [***] 表示在 1\% 顯著水準下顯著（$p<0.01$）。
+			\end{tablenotes}
+		\end{threeparttable}
+	\end{table}
+	
+	表~\ref{tab:beta_reg} 報導了全樣本槓桿迴歸之估計結果。可以看出，
+	BTC 日報酬的係數估計值 $\beta$ 約為 1.09，且在 1% 顯著水準下高度顯著，
+	表示在樣本期間內，當 BTC 報酬增加 1 個百分點時，MSTR 日報酬平均約增加
+	1.09 個百分點，顯示 MSTR 對 BTC 價格變動具有明顯的槓桿化反應。
+	常數項 $\alpha$ 雖為正值，但並不具有統計上的顯著性，代表在控制 BTC 報酬後，
+	MSTR 並無明顯的系統性超額報酬。整體而言，模型可解釋約 48\% 的 MSTR 報酬變異，
+	顯示 BTC 價格變動是影響 MSTR 報酬的重要來源之一，但仍有部分波動來自
+	公司特有或其他市場因子。
+	
+	
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{image/MSTR and BTC leverage (8).png}
+		\caption{MicroStrategy 相對於 Bitcoin 的 60 天滾動貝塔係數 (Rolling Beta)}
+		\vspace{0.0cm}
+		\label{fig:mstr_btc}
+	\end{figure}
+	
+	由圖~\ref{fig:mstr_btc} 可觀察到，在樣本期間的絕大多數時間內，
+	MSTR 相對於 BTC 之滾動貝塔均高於 1，顯示 MSTR 對 BTC 報酬變動普遍呈現
+	槓桿化反應。尤其在部分高波動或多頭階段（例如 BTC 價格大幅上漲、
+	或市場情緒偏熱時），滾動貝塔會升至更高水準，反映在行情劇烈波動時，
+	MSTR 對 BTC 報酬的敏感度同步放大；相對地，在市場較為平淡、
+	或 MSTR 股價處於修正期時，滾動貝塔則逐漸下降，甚至接近 1，
+	顯示槓桿效果會隨市場狀況而調整。
+	綜合全樣本槓桿迴歸與 60 日滾動貝塔的結果，可知 MSTR 對 BTC 報酬變動的
+	平均敏感度顯著大於 1，且在高波動或上漲行情階段呈現更強的槓桿效果；
+	在相對冷清或修正期，槓桿倍數則趨於收斂。此一時變的槓桿結構，說明
+	投資人若以 MSTR 取得 BTC 曝險，其實際風險暴露會隨市場狀態而改變，
+	並非固定倍數。
+	
+	
+	圖~\ref{fig:mstr_btc_scatter} 則以散佈圖更直觀地呈現兩資產日報酬之關係。
+	橫軸為 BTC 日對數報酬，縱軸為 MSTR 日對數報酬，藍色點雲代表各期觀測值，
+	紅色實線為 OLS 迴歸線，黑色虛線則為斜率等於 1 的參考線。可以看出，大部分
+	觀測值集中於右上與左下象限，顯示兩資產報酬多半同向變動；同時，
+	迴歸線斜率明顯大於 1，與表~\ref{tab:beta_reg} 中估得
+	$\beta \approx 1.09$ 的結果相互呼應，視覺上印證了 MSTR 報酬對 BTC 報酬
+	具有放大反應的特性。
+	\begin{figure}[H]
+		\centering
+		% 調整 width 參數可以改變圖片大小 (0.8 代表頁面寬度的 80%)
+		\includegraphics[width=0.8\textwidth]{image/MSTR_BTC_Leverage_Scatter_1.png}
+		\caption{MicroStrategy 與比特幣日對數報酬散佈圖}
+		\label{fig:mstr_btc_scatter}
+		
+		% 圖片下方的註解 (可選)
+		\footnotesize
+		\textit{註：}橫軸為比特幣日對數報酬，縱軸為 MicroStrategy 日對數報酬。紅線為 OLS 迴歸擬合線，黑虛線為 $\beta=1$ 之參考線。
+	\end{figure}
+	
+	綜合槓桿迴歸、滾動貝塔與散佈圖的證據，可知 MSTR 對 BTC 報酬變動之平均敏感度
+	顯著大於 1，且在高波動或上漲行情階段呈現更強的槓桿效果；在相對冷清或修正期，
+	槓桿倍數則趨於收斂。這些靜態與動態的結果，與前一節 IRF 所示
+	「BTC 衝擊在 MSTR 報酬上呈現同向且放大的短期動態反應」相互印證，
+	支持將 MSTR 視為比特幣價格變動之槓桿化代理資產。對投資人而言，
+	若透過持有 MSTR 來間接取得 BTC 曝險，需意識到其報酬波動亦將被放大，
+	且在行情劇烈波動期間實際風險暴露可能超過名目部位本身。
+	
+	\newpage
+	% 第五章
+	\newpage
+	\section{結論與建議}
+	本研究以2020年8月至2025年11月之 MicroStrategy(MSTR)股價與Bitcoin(BTC)價格為樣本，運用單根與共整合檢定、VAR模型、Granger因果檢定、脈衝反應分析以及槓桿迴歸與滾動 Beta 等方法，探討兩者之連動性與槓桿效應。綜合前述實證結果，可得到以下幾點結論
+	
+	\subsection{一、結論}
+	\begin{enumerate}
+		\item \textbf{兩資產皆為高風險標的，但風險結構有所差異。}
+		日對數報酬的敘述統計顯示，MSTR 與 BTC 的平均日報酬約略相近，
+		惟 MSTR 的日報酬標準差（約 5.67\%）明顯高於 BTC（約 3.95\%），
+		代表在樣本期間內 MSTR 的短期價格波動甚至大於 BTC。
+		在分配形狀上，BTC 報酬呈現較強的負偏態與極高峰態，顯示其尾端風險偏向劇烈下跌；
+		相較之下，MSTR 雖亦具尖峰厚尾，但分配較接近對稱。
+		整體而言，兩者皆屬高風險資產，但 BTC 的「崩跌尾風險」較為突出，而 MSTR 則表現為整體波動度偏高。
+		
+		\item \textbf{價格層面不存在長期均衡關係，僅適合討論短期動態。}
+		單根檢定結果顯示，MSTR 與 BTC 價格序列皆為 I(1) 非定態，而其日對數報酬可視為 I(0) 定態序列。
+		進一步採用 Engle--Granger 兩步驟法檢定共整合關係，並未發現價格之間存在顯著的共整合向量；
+		換言之，兩者價格並不收斂於穩定的長期比例，而是呈現長期脫鉤現象。
+		因此，本研究聚焦於報酬層面的短期互動與槓桿效果，而非長期誤差修正結構。
+		
+		\item \textbf{BTC 在資訊傳遞上相對領先，MSTR 多扮演跟隨者角色。}
+		差分 VAR(1) 模型與 Granger 因果檢定結果顯示，
+		僅有「BTC 報酬對 MSTR 報酬」在第三期滯後時具有顯著的預測力，
+		而「MSTR 報酬對 BTC 報酬」在各期滯後皆不顯著。
+		此結果意味著 BTC 在資訊傳遞上扮演領先者，MSTR 則多為被動反映 BTC 價格訊號的資產。
+		
+		\item \textbf{脈衝反應函數顯示：BTC 衝擊對 MSTR 報酬具有短期放大效果。}
+		IRF 分析結果指出，在差分 VAR(1) 模型下，
+		一個正向的一標準差 BTC 報酬衝擊，會使 MSTR 報酬在衝擊後一至兩期內出現顯著且放大的正向反應，
+		之後效果迅速衰減而趨近於零；
+		反之，MSTR 報酬的正向衝擊對 BTC 報酬幾乎沒有統計上顯著的影響。
+		這不僅再次印證「BTC 領先、MSTR 跟隨」的單向關係，也顯示 MSTR 對 BTC 價格訊號具有短期放大反應的特性。
+		
+		\item \textbf{槓桿迴歸與滾動貝塔證實 MSTR 為比特幣的槓桿化代理資產。}
+		OLS 槓桿迴歸結果顯示，BTC 日報酬的係數 $\beta$ 約為 1.09，且在 1\% 顯著水準下高度顯著，
+		代表當 BTC 報酬變動 1 個百分點時，MSTR 日報酬平均約變動 1.09 個百分點，
+		並無顯著超額報酬（常數項不顯著）。
+		進一步的 60 日滾動貝塔分析亦顯示，大部分時間 $\beta$ 皆高於 1，
+		並在 BTC 價格劇烈波動或多頭行情期間升至更高水準，
+		而在行情震盪較小或修正期則趨近於 1。
+		綜合靜態迴歸、時變貝塔與 IRF 的證據，可歸納出：
+		MSTR 對 BTC 價格變動普遍呈現大於 1 的槓桿敏感度，
+		可視為一種「比特幣價格的槓桿化代理資產」。
+	\end{enumerate}
+	
+	\subsection{二、建議}
+	根據上述實證發現，本研究對投資實務與後續研究提出以下建議：
+	
+	\begin{enumerate}
+		\item \textbf{對投資人與資產配置的建議。}
+		實證結果顯示，MSTR 可提供較 BTC 更高的報酬敏感度與風險暴露，
+		且此一槓桿倍數會隨市場狀態而變化。
+		對於欲透過股票市場間接取得比特幣曝險的投資人而言，
+		MSTR 確實可作為一種「高 Beta 的比特幣代理標的」，
+		但同時意味著價格波動與虧損風險亦將被放大，
+		尤其在 BTC 劇烈上漲或下跌期間，實際風險可能超過原先預期。
+		因此，投資人應將 MSTR 視為高槓桿、高波動的加密貨幣相關資產，
+		在部位規模控制、保證金管理與停損機制設計上採取更為保守的原則。
+		
+		\item \textbf{對企業財務與風險管理的啟示。}
+		部分企業可能透過持有與比特幣高度連動之股票，
+		間接取得加密資產曝險或進行資產負債管理。
+		本研究結果顯示，MSTR 的價格並不與 BTC 價格形成穩定的長期比例關係，
+		且短期反應具有放大效果。
+		就風險管理角度而言，若將 MSTR 視為「等同於持有 BTC」，
+		可能低估了實際波動風險與追蹤誤差；
+		因此，企業在建構此類部位時，宜同時評估槓桿倍數的時變特性，
+		並搭配其他風險控管工具或對沖策略。
+		
+		\item \textbf{對監理與市場資訊透明度的建議。}
+		當越來越多上市公司持有大量加密貨幣時，
+		其股價波動將不僅反映公司基本面，也會高度連動於加密貨幣市場。
+		監理機關與交易所可考慮要求企業更清楚揭露加密資產持有部位、
+		槓桿來源與風險管理政策，協助投資人辨識其股價中「營運風險」
+		與「加密貨幣風險」的相對比重。
+		
+		\item \textbf{對後續研究的建議。}
+		本研究仍有若干限制，可供未來研究延伸：
+		\begin{itemize}
+			\item 資料頻率方面，本研究採用日資料，未來可改用高頻資料，
+			以檢驗更短期的資訊傳遞與價格發現過程。
+			\item 模型設定方面，可進一步導入 GARCH、EGARCH 或 Markov-switching VAR 等
+			具備波動叢聚與體制轉換的模型，檢驗槓桿效應是否在牛熊市或高低波動體制下有所差異。
+			\item 樣本範圍方面，可納入其他持有大量比特幣的上市公司或加密貨幣相關 ETF，
+			比較不同槓桿代理資產之間的敏感度與風險特徵，建立較完整的實證圖像。
+		\end{itemize}
+	\end{enumerate}
+	
+	\newpage
+	% 參考文獻
+	\newpage
+	
+	
+	\newpage
+	\appendix
+	\section{程式碼說明}
+	
+	本研究之資料前處理、單根與共整合檢定、VAR 模型估計、
+	Granger 因果檢定、脈衝反應分析以及槓桿迴歸與滾動貝塔
+	等 Python 程式碼，均已整理並公開於下列儲存庫：
+	
+	\begin{itemize}
+		\item GitHub：\url{https://github.com/HackerJacky/Crypto-quantitative-analysis/blob/b9b7f3498d4f59afe33603000aa68680c4d26f0d/crypto.ipynb}
+	\end{itemize}
+	讀者如欲重現本文實證結果，可下載上述程式碼與說明文件，
+	依說明執行即可。
+	
+	\section{MicroStrategy 與 Bitcoin技術分析}
+	Mirco Strategy跟Bitcoin股價影響，2024起以技術分析中形態學進行操作。
+	MSTR
+	若以2024為進入市場的時間，第一次進行操作的日期為2024/01/26出現破底翻進入市場(圖\ref{fig:tech_ana_1})
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=1.0\textwidth]{image/tech_ana_1.png}
+		\caption{}
+		\vspace{0.0cm}
+		\label{fig:tech_ana_1}
+	\end{figure}
+	2024/02/15原定因前一次的型態到達一波滿足(左1灰箭頭)進行部分停利，但因為進場時間為2024因此倉位不多且由突破更大的型態(圖\ref{fig:tech_ana_2}紅圈)因此可以加碼並觀察是否跌破支撐(紫色均線)，若是跌破支撐則減碼。
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{image/tech_ana_2.png}
+		\caption{}
+		\vspace{0.0cm}
+		\label{fig:tech_ana_2}
+	\end{figure}
+	02/26跌破支撐(紫色均線)減碼後再次出現破底翻(圖\ref{fig:tech_ana_3}灰色箭頭)，並且此次將前面長達3年的型態完整了，進場加碼。
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{image/tech_ana_3.png}
+		\caption{}
+		\vspace{0.0cm}
+		\label{fig:tech_ana_3}
+	\end{figure}
+	3/27左右達到兩次滿足(下圖紅圈)後停利出場，為了等待下一次型態出現跡象因此下一次進場需等待時機到達。
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{image/tech_ana_4.png}
+	\caption{}
+	\vspace{0.0cm}
+	\label{fig:tech_ana_4}
+	\end{figure}
+	下一次的型態完成需要時間，在等待完成的時間內不斷的進場嘗試，但需隨時做好減碼與停損的準備，不斷的進場嘗試(灰色箭頭)與減碼(黃色箭頭)
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{image/tech_ana_5.png}
+		\caption{}
+		\vspace{0.0cm}
+		\label{fig:tech_ana_5}
+	\end{figure}
+	在經歷不斷地進出場後形成波段(綠色箭頭)，將接續前一波的動能繼續上漲。
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{image/tech_ana_5.png}
+		\caption{}
+		\vspace{0.0cm}
+		\label{fig:tech_ana_6}
+	\end{figure}
+	令人感到驚奇的是這次波段也在11/19達到了兩次滿足，停利出場。而漲勢也在這裡告一段落。
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{image/tech_ana_7.png}
+		\caption{}
+		\vspace{0.0cm}
+		\label{fig:tech_ana_7}
+	\end{figure}
+	這次的多頭停利後，在12/17出現首個空頭訊號進場(左一藍箭頭)，2025/1/3減碼(左一黃箭頭)，1/8加碼(左二藍箭頭)，1/14減碼(左二黃箭頭)，1/24加碼(左三藍箭頭)，2/24加碼(左四藍箭頭)，3/5減碼(左三黃箭頭)，3/7加碼(左五藍箭頭)，3/14減碼(左四黃箭頭)，3/24停損(左一紅圓圈)，3/26進場(左六藍箭頭)，4/9減碼(左五黃箭頭)，4/22停損(左二紅圓圈)，5/15進場(左七藍箭頭)，5/19減碼(左六黃箭頭)，5/22加碼(左八藍箭頭)，6/3減碼(左七黃箭頭)，6/5加碼(左九藍箭頭)，6/9停損(左三紅圈)，7/18進場(右六藍箭頭)，8/7減碼(右三黃箭頭)，8/13加碼(右五藍箭頭)，8/18型態完整加碼(右四藍箭頭)，9/17減碼(左二黃箭頭)，9/23加碼(右三藍箭頭)，10/1減碼(左一黃箭頭)，10/8加碼(右二藍箭頭)，10/29滿足部分停利(右一紅圓圈)，10/30型態完整加碼(右一藍箭頭)
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{image/tech_ana_8.png}
+		\caption{}
+		\vspace{0.0cm}
+		\label{fig:tech_ana_8}
+	\end{figure}
+	
+
+\printbibliography[heading=bibintoc]
+
+	
+\end{document}
